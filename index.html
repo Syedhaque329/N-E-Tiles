@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Netiles & Hardware - Premium Tiles & Home Solutions</title>
+  <title>N E Tiles & Hardware - Premium Tiles & Home Solutions</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style/style.css" />
 </head>
@@ -15,20 +15,21 @@
       <div class="container">
         <div class="header-info">
           <div><i class="fas fa-phone"></i> +91 70504 61788</div>
-          <div><i class="fas fa-map-marker-alt"></i> Chandigarh, Delhi Road, Darshan, Bihar - 846005</div>
+          <div><i class="fas fa-map-marker-alt"></i> N E Tiles & Hardware, Delhi More, Passport Office Road, near Shiv Mandir, PNB Bank</div>
         </div>
       </div>
     </div>
     <div class="header-main">
       <div class="container">
         <div class="nav-container">
-          <div class="logo">NETILES & HARDWARE</div>
+          <div class="logo">N E Tiles & Hardware</div>
           <nav>
             <ul>
               <li><a href="#home">Home</a></li>
               <li><a href="#services">Services</a></li>
               <li><a href="#gallery">Gallery</a></li>
               <li><a href="#about">About</a></li>
+              <li><a href="#calculator">Calculator</a></li>
               <li><a href="#contact">Contact</a></li>
               <li><a href="3d-visual.html">3D View</a></li>
             </ul>
@@ -49,7 +50,7 @@
     </div>
   </section>
 
-  <!-- Services -->
+  <!-- Services Section -->
   <section id="services" class="services">
     <div class="container">
       <h2 class="section-title">Our Services</h2>
@@ -78,7 +79,7 @@
     </div>
   </section>
 
-  <!-- Gallery -->
+  <!-- Gallery Section -->
   <section id="gallery" class="gallery">
     <div class="container">
       <h2 class="section-title">Our Work Gallery</h2>
@@ -108,8 +109,8 @@
     <div class="container">
       <div class="about-content">
         <div class="about-text">
-          <h2>About Netiles & Hardware</h2>
-          <p>With years of experience, we are your trusted partner in tiles and hardware, located near Shiv Mandir and Punjab National Bank, Chandigarh.</p>
+          <h2>About N E Tiles & Hardware</h2>
+          <p>With 5+ years of experience, we are your trusted partner in tiles and hardware, located near Shiv Mandir and PNB Bank, Delhi More.</p>
           <ul class="features">
             <li><i class="fas fa-check-circle"></i> Premium Quality Products</li>
             <li><i class="fas fa-check-circle"></i> Expert Installation Service</li>
@@ -125,6 +126,22 @@
     </div>
   </section>
 
+  <!-- Tile Calculator -->
+  <section id="calculator" class="calculator-section">
+    <div class="container">
+      <h2 class="section-title">Tile Calculator</h2>
+      <p>Estimate how many tiles you need (10% margin included)</p>
+      <div class="calculator-form">
+        <input type="number" id="roomLength" placeholder="Room Length (ft)" required>
+        <input type="number" id="roomWidth" placeholder="Room Width (ft)" required>
+        <input type="number" id="tileLength" placeholder="Tile Length (ft)" required>
+        <input type="number" id="tileWidth" placeholder="Tile Width (ft)" required>
+        <button onclick="calculateTiles()">Calculate</button>
+        <p id="result" style="margin-top:10px; font-weight:bold;"></p>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact -->
   <section id="contact" class="contact">
     <div class="container">
@@ -133,8 +150,9 @@
         <div class="contact-info">
           <h3>Get in Touch</h3>
           <div class="contact-item"><i class="fas fa-phone"></i> <span>+91 70504 61788</span></div>
-          <div class="contact-item"><i class="fas fa-map-marker-alt"></i> <span>Near Shiv Mandir & Punjab National Bank<br/>Chandigarh, Delhi Road, Darshan<br/>Bihar - 846005</span></div>
-          <div class="contact-item"><i class="fas fa-clock"></i> <span>Mon - Sat: 9 AM - 7 PM<br/>Sunday: 10 AM - 5 PM</span></div>
+          <div class="contact-item"><i class="fas fa-map-marker-alt"></i> 
+            <span>N E Tiles & Hardware, Delhi More, Passport Office Road,<br/>near Shiv Mandir, PNB Bank</span></div>
+          <div class="contact-item"><i class="fas fa-clock"></i> <span>Monday - Sunday: 9 AM - 8 PM
         </div>
         <div class="contact-form">
           <h3>Send us a Message</h3>
@@ -153,7 +171,7 @@
   <!-- Footer -->
   <footer>
     <div class="container">
-      <p>&copy; 2024 Netiles & Hardware. All rights reserved.</p>
+      <p>&copy; 2024 N E Tiles & Hardware. All rights reserved.</p>
     </div>
   </footer>
 
@@ -163,6 +181,22 @@
   </a>
 
   <!-- Scripts -->
-  <script src="js/main.js"></script>
+  <script>
+    function calculateTiles() {
+      const roomLength = parseFloat(document.getElementById('roomLength').value);
+      const roomWidth = parseFloat(document.getElementById('roomWidth').value);
+      const tileLength = parseFloat(document.getElementById('tileLength').value);
+      const tileWidth = parseFloat(document.getElementById('tileWidth').value);
+
+      if (roomLength > 0 && roomWidth > 0 && tileLength > 0 && tileWidth > 0) {
+        const roomArea = roomLength * roomWidth;
+        const tileArea = tileLength * tileWidth;
+        const tilesNeeded = Math.ceil((roomArea / tileArea) * 1.10); // 10% margin
+        document.getElementById('result').innerText = `You will need approximately ${tilesNeeded} tiles (including 10% margin).`;
+      } else {
+        document.getElementById('result').innerText = 'Please fill in all values correctly.';
+      }
+    }
+  </script>
 </body>
 </html>
