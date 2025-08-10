@@ -1,100 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>3D Tile Visualizer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>N E Tiles & Hardware - 3D Tile Visualizer</title>
   <style>
     body {
-      margin: 0;
+      background-color: #f8f8f8;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f0f0;
+      padding: 1rem;
+      text-align: center;
     }
-
-    header {
+    header.visualizer-header {
       background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: white;
-      text-align: center;
       padding: 1rem;
-    }
-
-    .visualizer-container {
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    canvas {
-      max-width: 100%;
-      background: #ddd;
-      border-radius: 10px;
-    }
-
-    .note {
-      margin-top: 1rem;
-      color: #666;
-    }
-
-    a.back-link {
-      display: inline-block;
-      margin-top: 2rem;
-      background: #2a5298;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
+      margin-bottom: 2rem;
       border-radius: 8px;
-      transition: background 0.3s;
     }
-
-    a.back-link:hover {
-      background: #1e3c72;
+    canvas {
+      width: 100%;
+      max-width: 800px;
+      height: 500px;
+      border-radius: 10px;
+      background: #ddd;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: block;
+      margin: 0 auto;
+    }
+    select#tileSelector {
+      margin-bottom: 1rem;
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 250px;
+    }
+    .address-section {
+      background: white;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem 1rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      font-size: 18px;
+      color: #333;
+    }
+    .back-button {
+      display: inline-block;
+      background-color: #1e3c72;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 16px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
+    }
+    .back-button:hover {
+      background-color: #2a5298;
     }
   </style>
 </head>
 <body>
-  <header>
+
+  <header class="visualizer-header">
     <h1>3D Tile Room Visualizer</h1>
-    <p>Experience how tiles will look in a real space</p>
+    <p>Select a tile design to preview it in large view.</p>
   </header>
 
-  <div class="visualizer-container">
-    <canvas id="tileCanvas" width="800" height="500"></canvas>
-    <p class="note">* This is a simulated visual. Contact us for full 3D planning & AR tools.</p>
-    <a href="index.html" class="back-link">← Back to Home</a>
-  </div>
+  <!-- Back Button -->
+  <a href="index.html" class="back-button">⬅ Back to Main Website</a>
+
+  <select id="tileSelector" aria-label="Select Tile Design"></select>
+
+  <canvas id="tileCanvas" width="800" height="500"></canvas>
+
+  <section class="address-section" aria-label="Store Address">
+    <h2>Visit Our Store</h2>
+    <p><strong>Address:</strong> N E Tiles & Hardware, Delhi More, Passport Office Road, near Shiv Mandir, PNB Bank, Darbhanga, Bihar 846005</p>
+    <p><strong>Phone:</strong> +91 70504 61788</p>
+    <p><strong>Hours:</strong> Mon - Sun: 9 AM - 8 PM</p>
+  </section>
 
   <script>
-    // Simple 3D grid illusion using canvas
     const canvas = document.getElementById('tileCanvas');
     const ctx = canvas.getContext('2d');
+    const selector = document.getElementById('tileSelector');
 
-    function draw3DTiles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const tileWidth = 80;
-      const tileHeight = 40;
-
-      for (let row = 0; row < 10; row++) {
-        for (let col = 0; col < 10; col++) {
-          const x = col * tileWidth + (row % 2) * (tileWidth / 2);
-          const y = row * tileHeight * 0.6;
-
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          ctx.lineTo(x + tileWidth, y);
-          ctx.lineTo(x + tileWidth - tileWidth / 4, y + tileHeight);
-          ctx.lineTo(x - tileWidth / 4, y + tileHeight);
-          ctx.closePath();
-
-          ctx.fillStyle = `hsl(${col * 20}, 50%, ${60 - row * 2}%)`;
-          ctx.fill();
-          ctx.strokeStyle = '#999';
-          ctx.stroke();
-        }
+    // Generate dropdown for 19 tiles
+    for (let i = 1; i <= 19; i++) {
+      const opt = document.createElement('option');
+      if (i === 1) {
+        opt.value = `images/tile1.jpg`; // First one without space
+      } else {
+        opt.value = `images/tile ${i}.jpg`; // Space before number
       }
+      opt.textContent = `Tile Design ${i}`;
+      selector.appendChild(opt);
     }
 
-    draw3DTiles();
+    let tileImg = new Image();
+
+    function drawSingleTile() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const scale = Math.max(canvas.width / tileImg.width, canvas.height / tileImg.height);
+      const x = (canvas.width / 2) - (tileImg.width / 2) * scale;
+      const y = (canvas.height / 2) - (tileImg.height / 2) * scale;
+      ctx.drawImage(tileImg, x, y, tileImg.width * scale, tileImg.height * scale);
+    }
+
+    function loadAndDrawTile(src) {
+      tileImg = new Image();
+      tileImg.onload = drawSingleTile;
+      tileImg.onerror = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "red";
+        ctx.font = "18px Arial";
+        ctx.fillText("❌ Image not found: " + src, 20, 50);
+      };
+      tileImg.src = src;
+    }
+
+    // Initial load
+    loadAndDrawTile(selector.options[0].value);
+
+    // Change image on selection
+    selector.addEventListener('change', () => {
+      loadAndDrawTile(selector.value);
+    });
   </script>
+
 </body>
 </html>
