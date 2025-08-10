@@ -56,7 +56,21 @@ body{
 /* Services grid */
 .services{ padding:48px 0; }
 .services-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
-.service-card{ background:var(--card); padding:20px; border-radius:12px; box-shadow:0 6px 20px rgba(32,40,60,0.06); text-align:center; }
+
+/* Service card with tilt effect */
+.service-card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(32,40,60,0.06);
+  text-align:center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-card:hover,
+.service-card:active {
+  transform: perspective(800px) rotateX(4deg) rotateY(4deg) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
 .service-icon{ font-size:36px; color:var(--primary-2); margin-bottom:10px; }
 
 /* Gallery */
@@ -242,3 +256,4 @@ body{
   .gallery-item img{ height:160px; }
   .content-section .container{ padding:16px; }
 }
+
